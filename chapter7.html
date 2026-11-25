@@ -3894,11 +3894,245 @@
       }
 
     }
+    /* Match Chapter 6's panel, tab, and enlarged-image sizing. */
+    :root {
+      --chapter-card-height: clamp(160px, calc((100dvh - 320px) / 2), 360px);
+    }
+
+    .content-border {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: stretch;
+      gap: 1.5rem;
+      width: 92%;
+      margin-top: 2.5rem;
+      margin-bottom: 0;
+    }
+
+    .chapter-left {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .answer-margin {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .answer-title {
+      flex: none;
+    }
+
+    .title-question {
+      top: -2rem;
+      left: 1.25rem;
+      padding: 0.25rem 0.75rem;
+    }
+
+    .question-border,
+    .dummy-answer,
+    .real-answer {
+      height: var(--chapter-card-height);
+      min-height: 0;
+    }
+
+    .question-border {
+      flex: none;
+    }
+
+    .real-answer {
+      flex: 1 1 var(--chapter-card-height);
+    }
+
+    .dummy-answer {
+      display: block;
+      flex: 1 1 4rem;
+      width: 100%;
+      height: auto;
+      min-height: 4rem;
+      border: 0;
+      background-color: #ffffff;
+      cursor: pointer;
+    }
+
+    .dummy-answer:focus-visible {
+      outline: 3px solid #fbbf24;
+      outline-offset: 2px;
+    }
+
+    .dummy-answer.hidden,
+    .threeD-white-box.hidden {
+      display: none;
+    }
+
+    .inside-content-border,
+    .pad-ans {
+      height: 100%;
+      min-width: 0;
+    }
+
+    .yellow-border {
+      flex: 0 0 36%;
+      width: auto;
+    }
+
+    .inside-image-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .inside-image-content img,
+    .pad-ans img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .video-white-box {
+      align-self: stretch;
+      min-height: 0;
+      margin-top: 0;
+      padding: 1rem;
+    }
+
+    #tutorial-video {
+      width: 100%;
+      max-height: 100%;
+      margin-top: 0;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+    }
+
+    .threeD-white-box {
+      flex-direction: column;
+      min-height: 0;
+      padding-bottom: 3rem;
+      overflow: hidden;
+    }
+
+    .threeD-img {
+      position: static;
+      transform: none;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .toggle-btn {
+      top: -2rem;
+      left: 1.25rem;
+      right: auto;
+      gap: 0.5rem;
+      padding: 0;
+      z-index: 1;
+    }
+
+    .tut-btn,
+    .threeD-btn {
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.375rem 0.375rem 0 0;
+    }
+
+    .threeD-text {
+      right: 1rem;
+      bottom: 1rem;
+      left: 1rem;
+      text-align: center;
+    }
+
+    .image-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 59;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-white-box {
+      inset: 2rem;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .modal-white-box:not(.hidden) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pad-soalan-cancel {
+      flex: none;
+      align-items: center;
+      padding: 1rem 1.5rem;
+    }
+
+    .content-modal {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      height: auto;
+      padding: 0 1.5rem 1.5rem;
+      overflow: auto;
+    }
+
+    .content-modal > img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      padding: 0;
+      object-fit: contain;
+    }
+
+    .content-modal .inside-content-border,
+    .content-modal .inside-image-content img {
+      max-height: 100%;
+    }
+
+    @media (max-width: 767px) {
+      .content-border {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2.5rem;
+      }
+
+      .question-border,
+      .real-answer {
+        height: auto;
+        min-height: 300px;
+      }
+
+      .inside-content-border {
+        flex-direction: column;
+      }
+
+      .yellow-border {
+        flex: none;
+      }
+
+      .inside-image-content img {
+        max-height: 300px;
+      }
+
+      .video-white-box {
+        min-height: 0;
+      }
+
+      .modal-white-box {
+        inset: 1rem;
+      }
+
+      .content-modal .inside-content-border {
+        height: auto;
+      }
+    }
   </style>
 
 </head>
 
-<body class="relative bg-center bg-cover h-screen w-full"
+<body class="relative bg-center bg-cover min-h-screen w-full"
   style="background-image: url('images/main/lk-bg-soalan-purple.png');">
 
   <!-- Modal Overlay Animation -->
@@ -4010,7 +4244,7 @@
 
   <div class="content-border">
     <!-- Left Panel: Question & Diagram Container -->
-    <div class="relative w-full md:flex-row p-4 rounded-lg">
+    <div class="chapter-left relative w-full rounded-lg">
       <div class="title-question">
         Soalan
       </div>
@@ -4023,7 +4257,7 @@
 
       <!-- Answer Section -->
       <div id="kapla-ansa" class="answer-margin">
-        <button id="answer-toggle" type="button" class="answer-title">
+        <button id="answer-toggle" type="button" class="answer-title" aria-expanded="false" aria-controls="answer-container">
           Jawapan
           <svg id="answer-arrow" class="w-6 h-6 transition-transform transform duration-300"
             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -4031,8 +4265,8 @@
           </svg>
         </button>
 
-        <!-- Dummy Answer Container -->
-        <div id="answer" class="dummy-answer"></div>
+        <!-- The blank panel also opens the answer. -->
+        <button id="answer" type="button" class="dummy-answer" aria-label="Tunjuk jawapan"></button>
 
         <!-- Real Answer Container -->
         <div id="answer-container" class="hidden real-answer">
@@ -4040,21 +4274,6 @@
         </div>
       </div>
 
-      <script>
-        document.getElementById('answer-toggle').addEventListener('click', () => {
-          const answerBox = document.getElementById('answer');
-          const answerContainer = document.getElementById('answer-container');
-          const answerArrow = document.getElementById('answer-arrow');
-          answerArrow.classList.toggle('rotate-90');
-          if (answerBox.classList.contains('hidden')) {
-            answerBox.classList.remove('hidden');
-          } else {
-            answerBox.classList.add('hidden');
-          }
-          const qContainer = document.getElementById('question-container');
-          qContainer.classList.toggle('h-[45%]');
-        });
-      </script>
     </div>
 
     <!-- Right Panel: Video Tutorial Container-->
@@ -4069,10 +4288,10 @@
 
       <!-- Toggle Buttons -->
       <div class="toggle-btn">
-        <button id="tutorial-btn" class="tut-btn">
+        <button id="tutorial-btn" type="button" class="tut-btn">
           Tutorial
         </button>
-        <button id="model-btn" class="threeD-btn">
+        <button id="model-btn" type="button" class="threeD-btn">
           3D Model
         </button>
       </div>
@@ -4080,7 +4299,8 @@
   </div>
 
   <!-- Modal -->
-  <div id="modal" class="hidden modal-white-box">
+  <div id="image-overlay" class="image-overlay hidden"></div>
+  <div id="modal" class="hidden modal-white-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="pad-soalan-cancel">
       <h2 id="modal-title" class="title-modal">Modal Title</h2>
       <button id="X" class="cancel">X</button>
@@ -4142,6 +4362,23 @@
 
     let scene, camera, renderer, controls;
 
+    function resizeModel() {
+      const container = document.getElementById("model-container");
+      if (!renderer || container.classList.contains("hidden")) return;
+
+      const panel = container.closest(".video-white-box");
+      const size = Math.max(120, Math.floor(Math.min(
+        panel.clientWidth - 32,
+        panel.clientHeight - 96,
+        640
+      )));
+      renderer.setSize(size, size);
+      camera.aspect = 1;
+      camera.updateProjectionMatrix();
+    }
+
+    window.addEventListener("resize", resizeModel);
+
     function initializeModel(modelPath) {
       // Clear previous scene if exists
       if (scene) {
@@ -4156,8 +4393,8 @@
       const container = document.getElementById("model-container");
       container.classList.remove("hidden");
       container.innerHTML = ""; // Clear previous renderer
-      // renderer.setSize(container.clientWidth, container.clientHeight);
-      renderer.setSize(240, 240);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(1, 1);
       renderer.domElement.classList.add("threeD-img");
       container.appendChild(renderer.domElement);
 
@@ -4227,7 +4464,7 @@
 
             <!-- Right Side: Diagram -->
             <div class="inside-image-content">
-                <img src='${tab.image}' alt='Question Image' class='max-h-80 w-auto' />
+                <img src='${tab.image}' alt='Question Image' />
             </div>
             <!-- Zoom Question Button -->
             <button id="zoom-question-btn" type="button" class="zoom-ques">
@@ -4241,20 +4478,11 @@
       document
         .getElementById("zoom-question-btn")
         .addEventListener("click", () => {
-          modalTitle.innerHTML = "Soalan";
-          document.getElementById("modal-content").innerHTML = document.getElementById("question-container").innerHTML;
+          openImageModal("Soalan", document.getElementById("question-container").innerHTML);
           const zoomQuestionBtn = modal.querySelector("#zoom-question-btn");
           if (zoomQuestionBtn) {
-            zoomQuestionBtn.classList.add("hidden");
+            zoomQuestionBtn.remove();
           }
-          modal.classList.toggle("hidden");
-          overlay.classList.toggle("hidden");
-          overlay.addEventListener("click", () => {
-            modal.classList.toggle("hidden");
-            if (!overlay.classList.contains("hidden")) {
-              overlay.classList.toggle("hidden");
-            }
-          });
         });
 
       // Inject tutorial video
@@ -4271,8 +4499,8 @@
       modelContainer.classList.remove("active-mode");
       tutorialBtn.classList.add("bg-amber-400");
       modelBtn.classList.remove("bg-green-500");
-
-      document.getElementById("tutorial-btn").click();
+      tutorialVideo.classList.remove("hidden");
+      modelContainer.classList.add("hidden");
 
       // Check if 3D model exists for this tab
       if (tab.object) {
@@ -4284,34 +4512,28 @@
         modelBtn.style.display = "none";
       }
 
-      document
-        .getElementById("tutorial-btn")
-        .addEventListener("click", function () {
-          document
-            .getElementById("tutorial-video")
-            .classList.remove("hidden");
-          document.getElementById("model-container").classList.add("hidden");
-        });
+      tutorialBtn.onclick = () => {
+        tutorialVideo.classList.remove("hidden");
+        modelContainer.classList.add("hidden");
+      };
 
-      document
-        .getElementById("model-btn")
-        .addEventListener("click", function () {
-          document.getElementById("tutorial-video").classList.add("hidden");
-          document
-            .getElementById("model-container")
-            .classList.remove("hidden");
+      modelBtn.onclick = () => {
+        tutorialVideo.classList.add("hidden");
+        modelContainer.classList.remove("hidden");
 
-          // text in 3d model
+        if (!modelContainer.querySelector(".threeD-text")) {
           const hintText = document.createElement("p");
           hintText.className = "threeD-text";
           hintText.textContent = "Putar objek untuk melihat dari arah berbeza.";
-          document.getElementById("model-container").appendChild(hintText);
-        });
+          modelContainer.appendChild(hintText);
+        }
+        requestAnimationFrame(resizeModel);
+      };
 
       // Inject the answer content
       document.getElementById('answer-container').innerHTML = `
             <div class="pad-ans">
-            <img src='${tab.answer}' alt='Answer Image' class='max-h-52 w-auto' />
+            <img src='${tab.answer}' alt='Answer Image' />
             <!-- Zoom Answer Button -->
             <button id="zoom-answer-btn" type="button" class="py-2 px-2 absolute right-2 bottom-2 text-sm font-medium rounded-lg bg-transparent text-gray-800 hover:text-amber-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -4324,16 +4546,7 @@
       document
         .getElementById("zoom-answer-btn")
         .addEventListener("click", () => {
-          modalTitle.innerHTML = "Jawapan";
-          document.getElementById("modal-content").innerHTML = '<img src="' + tab.answer + '" alt="Answer Image" class="ans-img-size"/>';
-          modal.classList.toggle("hidden");
-          overlay.classList.toggle("hidden");
-          overlay.addEventListener("click", () => {
-            modal.classList.toggle("hidden");
-            if (!overlay.classList.contains("hidden")) {
-              overlay.classList.toggle("hidden");
-            }
-          });
+          openImageModal("Jawapan", '<img src="' + tab.answer + '" alt="Answer Image" />');
         });
 
       // Disable/enable pagination buttons based on position
@@ -4376,18 +4589,21 @@
     // Toggle answer visibility
     document.getElementById('answer-toggle').addEventListener('click', () => {
       const answerContainer = document.getElementById('answer-container');
-      const questionContainer = document.getElementById('question-container');
+      const blankAnswer = document.getElementById('answer');
       answerContainer.classList.toggle('hidden');
+      blankAnswer.classList.toggle('hidden');
+      document.getElementById('answer-arrow').classList.toggle('rotate-90');
 
       // Toggle button background color on click
       const button = document.getElementById('answer-toggle');
+      button.setAttribute('aria-expanded', String(!answerContainer.classList.contains('hidden')));
       button.classList.toggle('bg-gray-400');
       button.classList.toggle('bg-amber-400');
-      if (questionContainer.classList.contains('h-fit')) {
-        questionContainer.classList.remove('h-fit');
-      } else {
-        questionContainer.classList.add('h-fit');
-      }
+      requestAnimationFrame(resizeModel);
+    });
+
+    document.getElementById('answer').addEventListener('click', () => {
+      document.getElementById('answer-toggle').click();
     });
 
     // Ensure the first tab loads on page load
@@ -4400,14 +4616,25 @@
     const modalTitle = document.getElementById("modal-title");
     const modal = document.getElementById("modal");
     const modalBtn = document.getElementById("X");
+    const imageOverlay = document.getElementById("image-overlay");
 
-    modalBtn.addEventListener("click", () => {
-      // dah dapat id modal content, copy innerHTML from questionContainer ke modal
-      // modal.classList.toggle("-translate-x-full");
-      overlay.classList.toggle("hidden");
+    function openImageModal(title, content) {
+      modalTitle.textContent = title;
+      modalContent.innerHTML = content;
+      modal.classList.remove("hidden");
+      imageOverlay.classList.remove("hidden");
+    }
+
+    function closeImageModal() {
       modal.classList.add("hidden");
+      imageOverlay.classList.add("hidden");
       modalContent.innerHTML = "";
-      // alert("Modal clicked");
+    }
+
+    modalBtn.addEventListener("click", closeImageModal);
+    imageOverlay.addEventListener("click", closeImageModal);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !modal.classList.contains("hidden")) closeImageModal();
     });
 
     // Sidebar
