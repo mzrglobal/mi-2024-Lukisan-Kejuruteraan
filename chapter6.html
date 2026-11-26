@@ -1658,8 +1658,8 @@
       /* 3d Model */
       .threeD-white-box {
         position: relative;
-        width: 60%;
-        height: 60%;
+        width: 70%;
+        height: 70%;
       }
 
       .toggle-btn {
@@ -1695,7 +1695,7 @@
 
       .threeD-text {
         right: -4rem;
-        bottom: -3rem;
+        bottom: -5rem;
         /* -bottom-16 = -4 * 16px = -64px */
         font-size: 0.8rem;
         /* text-lg = 18px */
@@ -1747,6 +1747,22 @@
       .pagination-btn {
         width: 26px;
         height: 26px;
+      }
+
+       #question-container .inside-content-border {
+        padding: 0.25rem;
+      }
+
+      #question-container .inside-image-content {
+        padding: 0.125rem;
+      }
+
+      #question-container .inside-image-content img {
+        width: auto;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
       }
     }
 
@@ -3993,6 +4009,7 @@
 
     .video-white-box {
       align-self: stretch;
+      height: auto;
       min-height: 0;
       margin-top: 0;
       padding: 1rem;
@@ -4037,7 +4054,7 @@
 
     .threeD-text {
       right: 1rem;
-      bottom: 1rem;
+      bottom: 2rem;
       left: 1rem;
       text-align: center;
     }
@@ -4126,6 +4143,125 @@
 
       .content-modal .inside-content-border {
         height: auto;
+      }
+    }
+
+    /* Fit the panels and tabs above pagination on short landscape screens. */
+    @media (min-width: 768px) and (orientation: landscape) and (max-height: 600px) {
+      :root {
+        --chapter-card-height: clamp(100px, calc((100dvh - 180px) / 2), 175px);
+      }
+
+      .content-border {
+        margin-top: 1.25rem;
+      }
+
+      .title-question {
+        top: auto;
+        bottom: 100%;
+        z-index: 2;
+      }
+
+      .title-question,
+      .answer-title,
+      .tut-btn,
+      .threeD-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 7.5rem;
+        min-width: 7.5rem;
+        height: 1.75rem;
+        padding: 0 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        white-space: nowrap;
+      }
+
+      .answer-title {
+        margin-left: 1.25rem;
+        gap: 0.25rem;
+      }
+
+      .answer-title svg {
+        flex: none;
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .toggle-btn {
+        top: auto;
+        bottom: 100%;
+        z-index: 2;
+      }
+
+      .yellow-border {
+        flex-basis: 42%;
+        padding: 0.65rem;
+        font-size: 0.875rem;
+        line-height: 1.3;
+      }
+
+      #tutorial-video {
+        max-height: calc(100dvh - 210px);
+      }
+    }
+
+    /* 768-1023px landscape: adjust the 3D caption here. */
+    @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+      .real-answer {
+        flex: 0 0 var(--chapter-card-height);
+        max-height: var(--chapter-card-height);
+      }
+
+      .real-answer .pad-ans {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .real-answer .pad-ans img {
+        display: block;
+        width: auto;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      #model-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      #model-container .threeD-text {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) and (max-height: 600px) {
+      .content-border {
+        grid-template-rows: calc(var(--chapter-card-height) + var(--chapter-card-height) + 2.75rem);
+      }
+
+      .chapter-left,
+      .answer-margin {
+        min-height: 0;
+      }
+    }
+
+    /* iPad Mini landscape: position the caption against the full tutorial panel. */
+    @media (min-width: 1024px) and (max-width: 1279px) and (orientation: landscape) {
+      #model-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      #model-container .threeD-text {
+        bottom: 1rem;
       }
     }
   </style>
@@ -4367,13 +4503,15 @@
       if (!renderer || container.classList.contains("hidden")) return;
 
       const panel = container.closest(".video-white-box");
+      const landscapeModel = window.matchMedia("(min-width: 768px) and (orientation: landscape)").matches;
       const size = Math.max(120, Math.floor(Math.min(
         panel.clientWidth - 32,
-        panel.clientHeight - 96,
+        panel.clientHeight - (landscapeModel ? 64 : 96),
         640
       )));
       renderer.setSize(size, size);
       camera.aspect = 1;
+      camera.fov = landscapeModel ? 58 : 75;
       camera.updateProjectionMatrix();
     }
 

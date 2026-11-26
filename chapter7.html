@@ -3964,6 +3964,7 @@
     }
 
     .dummy-answer.hidden,
+    .real-answer.hidden,
     .threeD-white-box.hidden {
       display: none;
     }
@@ -3993,6 +3994,7 @@
 
     .video-white-box {
       align-self: stretch;
+      height: auto;
       min-height: 0;
       margin-top: 0;
       padding: 1rem;
@@ -4126,6 +4128,141 @@
 
       .content-modal .inside-content-border {
         height: auto;
+      }
+    }
+
+    /* Keep the panels and tabs above pagination on short landscape screens. */
+    @media (min-width: 768px) and (orientation: landscape) and (max-height: 600px) {
+      :root {
+        --chapter-card-height: clamp(100px, calc((100dvh - 180px) / 2), 175px);
+      }
+
+      .content-border {
+        margin-top: 1.25rem;
+      }
+
+      .title-question {
+        top: auto;
+        bottom: 100%;
+        z-index: 2;
+      }
+
+      .title-question,
+      .answer-title,
+      .tut-btn,
+      .threeD-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 7.5rem;
+        min-width: 7.5rem;
+        height: 1.75rem;
+        padding: 0 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        white-space: nowrap;
+      }
+
+      .answer-title {
+        margin-left: 1.25rem;
+        gap: 0.25rem;
+      }
+
+      .answer-title svg {
+        flex: none;
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .toggle-btn {
+        top: auto;
+        bottom: 100%;
+        z-index: 2;
+      }
+
+      .yellow-border {
+        flex-basis: 42%;
+        padding: 0.65rem;
+        font-size: 0.875rem;
+        line-height: 1.3;
+      }
+
+      #tutorial-video {
+        max-height: calc(100dvh - 210px);
+      }
+    }
+
+    /* Keep the 3D panel stable while Jawapan opens and closes. */
+    @media (min-width: 768px) and (orientation: landscape) {
+      .content-border {
+        grid-template-rows: calc(var(--chapter-card-height) + var(--chapter-card-height) + 3rem);
+      }
+
+      .chapter-left {
+        height: 100%;
+        min-height: 0;
+      }
+
+      .answer-margin {
+        flex: 0 0 auto;
+        min-height: 0;
+      }
+
+      .dummy-answer {
+        flex: none;
+        height: clamp(4rem, 10dvh, 7rem);
+        min-height: 0;
+      }
+
+      .real-answer {
+        flex: none;
+        height: auto;
+        max-height: var(--chapter-card-height);
+      }
+
+      .real-answer .pad-ans {
+        height: auto;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .real-answer .pad-ans img {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: calc(var(--chapter-card-height) - 2rem);
+        object-fit: contain;
+      }
+
+      .video-white-box {
+        height: 100%;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+      #model-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      #model-container .threeD-text {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (min-width: 768px) and (orientation: landscape) and (max-height: 600px) {
+      .content-border {
+        grid-template-rows: calc(var(--chapter-card-height) + var(--chapter-card-height) + 2.75rem);
+      }
+
+      .chapter-left,
+      .answer-margin {
+        min-height: 0;
       }
     }
   </style>
@@ -4367,13 +4504,15 @@
       if (!renderer || container.classList.contains("hidden")) return;
 
       const panel = container.closest(".video-white-box");
+      const landscapeModel = window.matchMedia("(min-width: 768px) and (orientation: landscape)").matches;
       const size = Math.max(120, Math.floor(Math.min(
         panel.clientWidth - 32,
-        panel.clientHeight - 96,
+        panel.clientHeight - (landscapeModel ? 64 : 96),
         640
       )));
       renderer.setSize(size, size);
       camera.aspect = 1;
+      camera.fov = landscapeModel ? 58 : 75;
       camera.updateProjectionMatrix();
     }
 
@@ -4599,7 +4738,6 @@
       button.setAttribute('aria-expanded', String(!answerContainer.classList.contains('hidden')));
       button.classList.toggle('bg-gray-400');
       button.classList.toggle('bg-amber-400');
-      requestAnimationFrame(resizeModel);
     });
 
     document.getElementById('answer').addEventListener('click', () => {
